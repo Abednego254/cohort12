@@ -1,4 +1,4 @@
-package app;
+package app.framework;
 
 import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
@@ -82,11 +82,7 @@ public class Cohort12Framework {
         writer.println("</p>");
         writer.println("</section>");
 
-// Navigation
-        writer.println("<section>");
-        Cohort12Form formAnnot = clazz.getAnnotation(Cohort12Form.class);
-        String actionUrl = formAnnot != null ? formAnnot.actionUrl() : "./register";
-        writer.println("<a href=\"" + actionUrl + "\">&larr; Register " + cohort12Table.label() + " </a>");
+        writer.println("<a href=\"" + cohort12Table.registerUrl() + "\">&larr; Register " + cohort12Table.label() + " </a>");
         writer.println("</section>");
 
     }

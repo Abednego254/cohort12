@@ -1,9 +1,13 @@
-package app;
+package app.model;
 
+import app.framework.Cohort12Form;
+import app.framework.Cohort12FormField;
+import app.framework.Cohort12Table;
+import app.framework.Cohort12TableCol;
 import java.io.Serializable;
 
-@Cohort12Form(label = "Register School", actionUrl = "./register_school")
-@Cohort12Table(label = "Schools", tableUrl = "./list_registered")
+@Cohort12Form(label = "School Register", actionUrl = "./register_school")
+@Cohort12Table(label = "Schools", tableUrl = "./school_lists", registerUrl = "./register_school")
 public class School implements Serializable {
     @Cohort12FormField(label = "School Name",
             name = "schoolName",

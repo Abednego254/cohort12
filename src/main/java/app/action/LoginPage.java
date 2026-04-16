@@ -1,4 +1,4 @@
-package app;
+package app.action;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
@@ -109,7 +109,7 @@ public class LoginPage extends HttpServlet {
             System.out.println("session.getId(): " + session.getId());
             session.setAttribute("SESSION_ID", session.getId());
 
-            response.sendRedirect("./list_registered");
+            response.sendRedirect("./home");
 
         } else {
             request.getSession().invalidate();

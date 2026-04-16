@@ -1,9 +1,10 @@
-package app;
+package app.action;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,20 +12,12 @@ import java.io.PrintWriter;
 @WebServlet(name = "WelcomePage",
     urlPatterns = { "/" }
 )
-public class WelcomePage implements Servlet {
+public class WelcomePage extends HttpServlet {
 
-    public void init(ServletConfig servletConfig) throws ServletException {
-        //called when servlet is starting
-        System.out.println("Servlet Started and initialized");
-    }
-
-    public ServletConfig getServletConfig() {
-        return null;
-    }
-
-    public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-        servletResponse.setContentType("text/html");
-        PrintWriter writer = servletResponse.getWriter();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter writer = response.getWriter();
 
         writer.println("<!DOCTYPE html>");
         writer.println("<html>");
@@ -40,13 +33,11 @@ public class WelcomePage implements Servlet {
 
         writer.println("<body>");
 
-// Header
         writer.println("<header>");
         writer.println("<h1>Welcome to COHORT 12 Training PORTAL</h1>");
         writer.println("<p>Empowering Developers with Real-World Skills</p>");
         writer.println("</header>");
 
-// Courses section
         writer.println("<section>");
         writer.println("<h2>Available Courses</h2>");
         writer.println("<ul>");
@@ -57,7 +48,6 @@ public class WelcomePage implements Servlet {
         writer.println("</ul>");
         writer.println("</section>");
 
-// About training
         writer.println("<section>");
         writer.println("<h2>About Our Training</h2>");
         writer.println("<p>Our training programs focus on hands-on experience and real-world projects.</p>");
@@ -65,16 +55,10 @@ public class WelcomePage implements Servlet {
         writer.println("<p>Mentorship and practical coding sessions are at the core of our learning approach.</p>");
         writer.println("</section>");
 
-// Schedule
         writer.println("<section>");
         writer.println("<h2>Upcoming Schedule</h2>");
         writer.println("<p>Weekday Classes: 6:00 PM - 8:00 PM</p>");
         writer.println("<p>Weekend Bootcamps: 9:00 AM - 1:00 PM</p>");
-        writer.println("</section>");
-
-// Navigation
-        writer.println("<section>");
-        writer.println("<a href=\"./aboutus\">Learn More About Us</a>");
         writer.println("</section>");
 
         writer.println("<section>");
@@ -84,14 +68,5 @@ public class WelcomePage implements Servlet {
         writer.println("</body>");
         writer.println("</html>");
 
-    }
-
-    public String getServletInfo() {
-        return null;
-    }
-
-    public void destroy() {
-        //called when servlet stopped/removed from the container
-        System.out.println("Servlet shutting down!!");
     }
 }

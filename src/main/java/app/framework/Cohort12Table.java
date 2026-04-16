@@ -1,4 +1,4 @@
-package app;
+package app.framework;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Cohort12Form {
+public @interface Cohort12Table {
 
-    String label() default "Register";
+    String label() default "";
 
-    String method() default "POST";
+    String tableUrl();
 
-    String actionUrl();
+    String registerUrl();
 }

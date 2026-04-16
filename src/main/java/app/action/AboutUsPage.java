@@ -1,4 +1,4 @@
-package app;
+package app.action;
 
 import jakarta.servlet.GenericServlet;
 import jakarta.servlet.ServletException;
