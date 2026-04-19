@@ -48,10 +48,12 @@ public class HomePage extends HttpServlet {
         out.println("      <a href='./register_person'>Register Person</a>");
         out.println("      <a href='./register_student'>Register Student</a>");
         out.println("      <a href='./register_course'>Register Course</a>");
+        out.println("      <a href='./register_trainer'>Register Trainer</a>");
         out.println("      <a href='./person_lists'>Person List</a>");
         out.println("      <a href='./school_lists'>School List</a>");
         out.println("      <a href='./student_lists'>Student List</a>");
         out.println("      <a href='./course_lists'>Course List</a>");
+        out.println("      <a href='./trainer_lists'>Trainer List</a>");
         out.println("      <a href='./login'>Logout</a>");
         out.println("  </div>");
         out.println("</div>");

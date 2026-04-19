@@ -69,21 +69,14 @@ public class BaseAction<T> extends HttpServlet {
     @SuppressWarnings("unchecked")
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-
-        List<T> register;
-        if (session.getAttribute(this.dbName()) == null)
-            register = new ArrayList<>();
-        else
-            register = (List<T>) session.getAttribute(this.dbName());
+        java.sql.Connection conn = (java.sql.Connection) getServletContext().getAttribute("dbConnection");
 
         try {
-            register.add(this.serializeForm(req.getParameterMap()));
+            T entity = this.serializeForm(req.getParameterMap());
+            saveToDb(conn, entity);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        session.setAttribute(this.dbName(), register);
 
         if (this.getType().isAnnotationPresent(Cohort12Table.class)) {
             resp.sendRedirect(this.getType()
@@ -91,6 +84,39 @@ public class BaseAction<T> extends HttpServlet {
 
         } else {
             resp.sendRedirect("./home");
+        }
+    }
+
+    private void saveToDb(java.sql.Connection conn, T entity) throws Exception {
+        Class<?> clazz = entity.getClass();
+        String tableName = clazz.getSimpleName().toLowerCase();
+        java.lang.reflect.Field[] fields = clazz.getDeclaredFields();
+        
+        StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
+        StringBuilder values = new StringBuilder("VALUES (");
+        
+        java.util.List<Object> params = new java.util.ArrayList<>();
+        
+        for (java.lang.reflect.Field field : fields) {
+            if (field.isAnnotationPresent(app.framework.Cohort12FormField.class)) {
+                field.setAccessible(true);
+                sql.append(field.getName()).append(",");
+                values.append("?,");
+                params.add(field.get(entity));
+            }
+        }
+        
+        if (params.isEmpty()) return;
+        
+        sql.setLength(sql.length() - 1);
+        values.setLength(values.length() - 1);
+        sql.append(") ").append(values).append(")");
+        
+        try (java.sql.PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                pstmt.setObject(i + 1, params.get(i));
+            }
+            pstmt.executeUpdate();
         }
     }
 
@@ -153,13 +179,33 @@ public class BaseAction<T> extends HttpServlet {
     }
 
     public List<T> returnData(HttpSession session){
-        List<T> register;
-        if (session.getAttribute(this.dbName()) == null)
-            register = new ArrayList<>();
-        else
-            register = (List<T>) session.getAttribute(this.dbName());
-
-        return register;
+        java.sql.Connection conn = (java.sql.Connection) session.getServletContext().getAttribute("dbConnection");
+        List<T> result = new ArrayList<>();
+        Class<T> clazz = this.getType();
+        String tableName = clazz.getSimpleName().toLowerCase();
+        
+        String sql = "SELECT * FROM " + tableName;
+        try (java.sql.Statement stmt = conn.createStatement();
+             java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+             
+             while (rs.next()) {
+                 T instance = clazz.getDeclaredConstructor().newInstance();
+                 java.lang.reflect.Field[] fields = clazz.getDeclaredFields();
+                 for (java.lang.reflect.Field field : fields) {
+                     if (field.isAnnotationPresent(app.framework.Cohort12FormField.class)) {
+                         field.setAccessible(true);
+                         Object value = rs.getObject(field.getName());
+                         if (value != null) {
+                             org.apache.commons.beanutils.BeanUtils.setProperty(instance, field.getName(), value);
+                         }
+                     }
+                 }
+                 result.add(instance);
+             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }
