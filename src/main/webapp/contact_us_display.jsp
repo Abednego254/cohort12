@@ -1,17 +1,15 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Message Sent</title>
+    <title>Message Received</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f6f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            padding: 20px;
         }
 
         .card {
@@ -51,22 +49,68 @@
         a.button:hover {
             background-color: #0056b3;
         }
+
+        nav {
+            background: #34495e;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+        }
+        nav a:hover { background: rgba(255,255,255,0.25); }
     </style>
 </head>
 <body>
 
+<nav>
+    <a href="./index.jsp">🏠 Home</a>
+    <a href="./contact_us.jsp">📬 Contact Us</a>
+    <a href="./el_operators_demo.jsp">🔬 EL Operators Demo</a>
+    <a href="./login">🔐 Login</a>
+</nav>
+
 <div class="card">
     <h1>Thank You!</h1>
-        Name: <%= request.getParameter("name") %><br/>
-        Email: <%= request.getParameter("email") %><br/>
-        Subject: <%= request.getParameter("subject") %><br/>
-        Message: <%= request.getParameter("message") %><br/>
-        Country: <%= request.getParameter("country") %><br/>
-        County: <%= request.getParameter("county") %><br/>
-        Town: <%= request.getParameter("town") %><br/>
+
+    <%-- empty operator: checks if param is null or empty string --%>
+    <%-- ternary operator: condition ? valueIfTrue : valueIfFalse --%>
+
+    <%-- Relational: param.name != '' displayed via empty check --%>
+    Name: ${empty param.name ? 'Anonymous' : param.name}<br/>
+
+    <%-- empty: safely display email or fallback --%>
+    Email: ${empty param.email ? 'Not provided' : param.email}<br/>
+
+    <%-- ternary + empty: subject is optional --%>
+    Subject: ${empty param.subject ? '(No subject)' : param.subject}<br/>
+
+    <%-- ternary + empty: message is required but guard anyway --%>
+    Message: ${empty param.message ? '(No message)' : param.message}<br/>
+
+    <%-- Logical AND: both name and email are filled in --%>
+    <p>
+        Complete submission: <strong>${!(empty param.name) && !(empty param.email)}</strong>
+    </p>
+
+    <%-- Relational eq: role-based greeting --%>
+    <p>
+        ${param.name eq 'Admin' ? 'Welcome, Administrator!' : 'Thank you for reaching out!'}
+    </p>
+
     <p>Your message has been successfully submitted. We will get back to you shortly.</p>
 
-    <a href="index.html" class="button">Back to Home</a>
+    <a href="index.jsp" class="button">Back to Home</a>
 </div>
 
 <jsp:include page="footer.jsp" />

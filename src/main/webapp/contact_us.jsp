@@ -73,11 +73,36 @@
             font-size: 13px;
             color: #888;
         }
+
+        nav {
+            background: #34495e;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+        }
+        nav a:hover { background: rgba(255,255,255,0.25); }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <nav>
+        <a href="./index.jsp">🏠 Home</a>
+        <a href="./contact_us.jsp">📬 Contact Us</a>
+        <a href="./el_operators_demo.jsp">🔬 EL Operators Demo</a>
+        <a href="./login">🔐 Login</a>
+    </nav>
     <h1>Contact Us</h1>
 
     <div class="contact-info">
@@ -86,7 +111,7 @@
         <p>Location: Nairobi, Kenya</p>
     </div>
 
-    <form action="./contact_us_submitted.jsp" method="post">
+    <form action="./contact_us_display.jsp" method="post">
         <input type="text" name="name" placeholder="Your Name" required>
         <input type="email" name="email" placeholder="Your Email" required>
         <input type="text" name="subject" placeholder="Subject">

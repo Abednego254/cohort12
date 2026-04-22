@@ -1,9 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="app.utility.Courses" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%-- @page import="app.utility.Courses" --%>
 <%@ page import="java.time.LocalTime" %>
 
 
-<%! Courses courses = new Courses(); %>
+<%-- <%! Courses courses = new Courses(); %> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,10 +30,38 @@
             text-decoration: none;
             font-weight: bold;
         }
+        nav {
+            margin-top: 10px;
+            background: #34495e;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+        }
+        nav a:hover {
+            background: rgba(255,255,255,0.25);
+        }
     </style>
 </head>
 
 <body>
+
+    <%-- Top Navigation Bar --%>
+    <nav>
+        <a href="./index.jsp">🏠 Home</a>
+        <a href="./contact_us.jsp">📬 Contact Us</a>
+        <a href="./el_operators_demo.jsp">🔬 EL Operators Demo</a>
+        <a href="./login">🔐 Login</a>
+    </nav>
 
     <%-- Header --%>
     <header>
@@ -52,8 +80,9 @@
         <%
             }
         %>
-        Welcome to <%= application.getInitParameter("applicationName") %> Training PORTAL</h1>
+        Welcome to ${applicationScope.applicationName} Training PORTAL</h1>
         <p>Empowering Developers with Real-World Skills</p>
+        SUM OF TWO NUMBER ${1+2}
         <%!
 
             public int addTotalSum(){
@@ -73,7 +102,10 @@
     <section>
         <h2>Available Courses</h2>
         <ul>
-            <%= courses.list() %>
+            <%-- <%= courses.list() %> --%>
+            <li>Java Enterprise Edition</li>
+            <li>Web Development with JSP & Servlets</li>
+            <li>Database Integration with MySQL</li>
         </ul>
     </section>
 
@@ -94,10 +126,21 @@
     </section>
 
     <!-- Schedule -->
+    <jsp:useBean id="weekdaySchedule" class="app.model.Schedule" />
+    <jsp:setProperty name="weekdaySchedule" property="scheduleType" />
+    <jsp:setProperty name="weekdaySchedule" property="scheduleTime" />
+
+    <jsp:useBean id="weekendSchedule" class="app.model.Schedule" />
+    <jsp:setProperty name="weekendSchedule" property="scheduleType" value="Weekend Only Bootcamps" />
+    <jsp:setProperty name="weekendSchedule" property="scheduleTime" value="9:00 AM - 3:00 PM" />
     <section>
         <h2>Upcoming Schedule</h2>
-        <p>Weekday Classes: 6:00 PM - 8:00 PM</p>
-        <p>Weekend Bootcamps: 9:00 AM - 1:00 PM</p>
+        <p>
+        ${weekdaySchedule.scheduleType} : ${weekdaySchedule.scheduleTime}
+        </p>
+        <p>
+        ${weekendSchedule.scheduleType} : ${weekendSchedule.scheduleTime}
+        </p>
     </section>
 
     <jsp:include page="footer.jsp" />

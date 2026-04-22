@@ -1,5 +1,6 @@
 package app.action;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -64,6 +65,10 @@ public class HomePage extends HttpServlet {
         out.println("    <p>Manage your registrations and view reports from the navigation menu above.</p>");
         out.println("  </div>");
         out.println("</div>");
+
+        // Include the footer
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/footer");
+        dispatcher.include(request, response);
 
         out.println("</body>");
         out.println("</html>");

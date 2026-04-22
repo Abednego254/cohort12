@@ -158,7 +158,7 @@ public class BaseAction<T> extends HttpServlet {
         Cohort12Framework.htmlForm(writer, this.getType());
         writer.println("</section>");
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("footer");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/footer");
         dispatcher.include(req, resp);
 
         writer.println("</body>");
@@ -189,18 +189,18 @@ public class BaseAction<T> extends HttpServlet {
              java.sql.ResultSet rs = stmt.executeQuery(sql)) {
              
              while (rs.next()) {
-                 T instance = clazz.getDeclaredConstructor().newInstance();
-                 java.lang.reflect.Field[] fields = clazz.getDeclaredFields();
-                 for (java.lang.reflect.Field field : fields) {
-                     if (field.isAnnotationPresent(app.framework.Cohort12FormField.class)) {
-                         field.setAccessible(true);
-                         Object value = rs.getObject(field.getName());
-                         if (value != null) {
-                             org.apache.commons.beanutils.BeanUtils.setProperty(instance, field.getName(), value);
-                         }
-                     }
-                 }
-                 result.add(instance);
+                  T instance = clazz.getDeclaredConstructor().newInstance();
+                  java.lang.reflect.Field[] fields = clazz.getDeclaredFields();
+                  for (java.lang.reflect.Field field : fields) {
+                      if (field.isAnnotationPresent(app.framework.Cohort12FormField.class)) {
+                          field.setAccessible(true);
+                          Object value = rs.getObject(field.getName());
+                          if (value != null) {
+                              org.apache.commons.beanutils.BeanUtils.setProperty(instance, field.getName(), value);
+                          }
+                      }
+                  }
+                  result.add(instance);
              }
         } catch (Exception e) {
             e.printStackTrace();
