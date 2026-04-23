@@ -28,7 +28,11 @@ public class LoginFilter implements Filter {
             if (session != null)
                 session.invalidate();
 
-            httpResponse.sendRedirect(loginUri);
+            String target = pageRequestUri;
+            if (httpRequest.getQueryString() != null) {
+                target += "?" + httpRequest.getQueryString();
+            }
+            httpResponse.sendRedirect(loginUri + "?target=" + target);
         }
 
     }

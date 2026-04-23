@@ -55,7 +55,11 @@ public class LoginPage extends HttpServlet {
         out.println("<div class='login-container'>");
         out.println("<h2>Login</h2>");
 
+        String target = request.getParameter("target");
+        if (target == null) target = "";
+
         out.println("<form action='login' method='POST'>");
+        out.println("<input type='hidden' name='target' value='" + target + "'>");
 
         out.println("<div class='form-group'>");
         out.println("<label for='username'>Username</label>");
@@ -109,7 +113,12 @@ public class LoginPage extends HttpServlet {
             System.out.println("session.getId(): " + session.getId());
             session.setAttribute("SESSION_ID", session.getId());
 
-            response.sendRedirect("./home");
+            String target = request.getParameter("target");
+            if (target != null && !target.isEmpty()) {
+                response.sendRedirect(target);
+            } else {
+                response.sendRedirect("./home");
+            }
 
         } else {
             request.getSession().invalidate();
