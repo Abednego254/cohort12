@@ -60,6 +60,7 @@
         <a href="./index.jsp">🏠 Home</a>
         <a href="./contact_us.jsp">📬 Contact Us</a>
         <a href="./el_operators_demo.jsp">🔬 EL Operators Demo</a>
+        <a href="./jstl_demo.jsp">🏷️ JSTL Demo</a>
         <a href="./login">🔐 Login</a>
     </nav>
 

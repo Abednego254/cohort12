@@ -55,6 +55,7 @@ public class HomePage extends HttpServlet {
         out.println("      <a href='./student_lists'>Student List</a>");
         out.println("      <a href='./course_lists'>Course List</a>");
         out.println("      <a href='./trainer_lists'>Trainer List</a>");
+        out.println("      <a href='./jstl_demo.jsp'>JSTL Demo</a>");
         out.println("      <a href='./login'>Logout</a>");
         out.println("  </div>");
         out.println("</div>");
