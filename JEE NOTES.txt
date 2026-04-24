@@ -94,3 +94,13 @@ CONTEXT DEPENDENCY INJECTION(CDI)
         d) bean - java class(blueprint) to be management by containers
         e) contextual instance - which an object created by
             the container from bean.
+
+DEPENDENCY AMBIGUITY
+    - Occurs when we have one interface but multiple implementations.
+    - The container does not know which object to create and inject.
+    - CDI throws an UnsatisfiedResolutionException or AmbiguousResolutionException.
+
+QUALIFIERS
+    - Annotations used to disambiguate between multiple beans of the same type.
+    - Example: @ValidatorQualifier(ValidationChoice.TRAINER)
+    - Custom qualifiers are created using @Qualifier.
