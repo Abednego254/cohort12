@@ -1,6 +1,8 @@
 package app.action;
 
 import app.model.Trainer;
+import app.utility.validation.Validate;
+import jakarta.inject.Inject;
 import jakarta.servlet.annotation.WebInitParam;
 import jakarta.servlet.annotation.WebServlet;
 
@@ -17,4 +19,7 @@ import jakarta.servlet.annotation.WebServlet;
         })
 public class TrainerRegister extends BaseAction<Trainer> {
     // Look trainer, no body! All logic is in the generic framework.
+
+    @Inject
+    Validate validate;
 }
